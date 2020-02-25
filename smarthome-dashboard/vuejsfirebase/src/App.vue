@@ -1,31 +1,31 @@
 <template>
   <div id="app" class="container">
     <div class="page-header">
-      <h1>Vue.js 2 &amp; Firebase Sample Application</h1>
+      <h1>Smarthome</h1>
     </div>
     <div class="panel panel-default">
       <div class="panel-header">
-        <h3>Books Lists</h3>
+        <h3>Device Lists</h3>
       </div>
       <div class="panel-body">
         <table class="table table-striped">
           <thead>
             <tr>
               <th>
-                Title
+                Setting
               </th>
               <th>
-                Author
+                Status
               </th>
             </tr>
           </thead>
           <tbody>
-            <tr v-for="book in books">
-              <td>
-                <a v-bind:href="book.url">{{book.title}}</a>
+            <tr v-for="device in devices">
+              <td style="text-align: left">
+                LED Status
               </td>
-              <td>
-                {{book.author}}
+              <td style="text-align: left">
+                {{device.led_status}}
               </td>
             </tr>
           </tbody>
@@ -51,17 +51,17 @@ let config = {
 let app = Firebase.initializeApp(config);
 let db = app.database();
 
-let booksRef = db.ref('books')
+let devicesRef = db.ref('devices')
 
 export default {
   name: 'App',
   data () {
     return {
-      books: [],
+      devices: [],
     }
   },
   firebase: {
-    books: booksRef
+    devices: devicesRef
   }
 }
 </script>
