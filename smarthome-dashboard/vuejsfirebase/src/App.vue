@@ -5,27 +5,33 @@
     </div>
     <div class="panel panel-default">
       <div class="panel-header">
-        <h3>Device Lists</h3>
+        <h3>Device List</h3>
       </div>
       <div class="panel-body">
         <table class="table table-striped">
           <thead>
             <tr>
-              <th>
+              <th >
                 Setting
               </th>
               <th>
                 Status
               </th>
+              <th>
+                Actions
+              </th>
             </tr>
           </thead>
           <tbody>
-            <tr v-for="device in devices">
-              <td style="text-align: left">
+            <tr class="panel-settings" v-for="device in devices" :key="device['.key']">
+              {{ device.id }}
+              <td>
                 LED Status
               </td>
-              <td style="text-align: left">
-                {{device.led_status}}
+              <td v-bind:class="device.led_status">
+              </td>
+              <td>
+                <button v-on:click="updateSetting(device)">Switch Off</button>
               </td>
             </tr>
           </tbody>
@@ -60,6 +66,20 @@ export default {
       devices: [],
     }
   },
+  methods: {
+    updateSetting: function(device) {
+      const childKey = device['.key'];
+
+      if(device.led_status == "FALSE") {
+        let new_led_status = "TRUE";
+        devicesRef.child(childKey).child("led_status").set(new_led_status);
+      }
+      else if(device.led_status == "TRUE") {
+        let new_led_status = "FALSE";
+        devicesRef.child(childKey).child("led_status").set(new_led_status);
+      }
+    },
+  },
   firebase: {
     devices: devicesRef
   }
@@ -75,4 +95,18 @@ export default {
   color: #2c3e50;
   margin-top: 60px;
 }
+
+th,
+tr td {
+  text-align: center;
+}
+
+.panel-settings .FALSE {
+  background-color: red;
+}
+
+.panel-settings .TRUE {
+  background-color: green;
+}
+
 </style>
