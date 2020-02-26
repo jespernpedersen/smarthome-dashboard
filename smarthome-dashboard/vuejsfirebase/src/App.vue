@@ -7,36 +7,16 @@
       <div class="panel-header">
         <h3>Device List</h3>
       </div>
-      <div class="panel-body">
-        <table class="table table-striped">
-          <thead>
-            <tr>
-              <th >
-                Setting
-              </th>
-              <th>
-                Status
-              </th>
-              <th>
-                Actions
-              </th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr class="panel-settings" v-for="device in devices" :key="device['.key']">
-              {{ device.id }}
-              <td>
-                LED Status
-              </td>
-              <td v-bind:class="device.led_status">
-              </td>
-              <td>
-                <button v-on:click="updateSetting(device)">Switch Off</button>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
+      <ul class="device-list">
+        <ul v-for="device in devices" :key="device['.key']">
+          <h2>{{ device.name }}</h2>
+          <li>LED Status</li>
+          <li v-bind:class="device.led_status">
+          <li>
+            <button v-on:click="updateSetting(device)">Switch Off</button>
+          </li>
+        </ul>
+      </ul>
     </div>
   </div>
 </template>
@@ -101,11 +81,35 @@ tr td {
   text-align: center;
 }
 
-.panel-settings .FALSE {
+h2 {
+  text-align: left;
+  border-bottom: 2px solid #000;
+}
+
+
+.device-list,
+.device-list ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+
+.device-list {
+  padding: 60px 30px;
+  width: 100%;
+}
+
+.device-list ul {
+  display: inline-flex;
+  width: 100%;
+}
+
+.FALSE {
   background-color: red;
 }
 
-.panel-settings .TRUE {
+.TRUE {
   background-color: green;
 }
 
