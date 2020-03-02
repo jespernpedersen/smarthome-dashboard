@@ -9,7 +9,6 @@
       </div>
       <ul class="device-list">
         <ul v-for="device in devices" :key="device['.key']">
-          <h2>{{ device.name }}</h2>
           <li>LED Status</li>
           <li v-bind:class="device.led_status">
           <li>
@@ -103,6 +102,19 @@ h2 {
 .device-list ul {
   display: inline-flex;
   width: 100%;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.device-list ul li {
+  text-align: center;
+}
+
+
+.FALSE,
+.TRUE {
+  min-width: 350px;
+  height: 30px;
 }
 
 .FALSE {
