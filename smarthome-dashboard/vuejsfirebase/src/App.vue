@@ -7,14 +7,24 @@
       <div class="panel-header">
         <h3>Device List</h3>
       </div>
-      <ul class="device-list">
-        <ul v-for="device in devices" :key="device['.key']">
-          <li>LED Status</li>
-          <li v-bind:class="device.led_status">
-          <li>
-            <button v-on:click="updateSetting(device)">Switch Off</button>
-          </li>
-        </ul>
+      <section v-for="device in devices" :key="device['.key']" class="device-list">
+          <h2>{{ device.name }}</h2>
+          <ul v-if="device.led_status" class="led-status">
+            <li class="setting-name">LED Status</li>
+            <li v-bind:class="device.led_status"></li>
+            <li>
+              <button v-on:click="updateSetting(device)">Switch Off</button>
+            </li>
+          </ul><!-- end led_status -->
+          <ul v-if="device.interactive" class="interactive">
+            <li class="setting-name">Interactivity</li>
+            <li v-bind:class="device.interactive">
+            <li>
+              <button v-on:click="updateSetting(device)">Switch Off</button>
+            </li>
+          </ul>
+          
+      </section>
       </ul>
     </div>
   </div>
@@ -83,6 +93,12 @@ tr td {
 h2 {
   text-align: left;
   border-bottom: 2px solid #000;
+  padding-bottom: 5px;
+  margin-bottom: 15px;
+}
+
+h2:first-letter {
+  text-transform: uppercase;
 }
 
 
@@ -91,23 +107,34 @@ h2 {
   list-style: none;
   padding: 0;
   margin: 0;
+  margin-bottom: 15px;
 }
 
+.device-list ul + ul {
+  border-top: 3px solid #ccc;
+  padding-top: 15px;
+}
+
+.setting-name {
+  font-weight: bold;
+}
 
 .device-list {
-  padding: 60px 30px;
+  padding: 0px 30px 60px 30px;
   width: 100%;
 }
 
 .device-list ul {
-  display: inline-flex;
-  width: 100%;
-  justify-content: space-between;
-  align-items: center;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
 }
 
 .device-list ul li {
-  text-align: center;
+  text-align: left;
+}
+
+.device-list ul li:last-of-type {
+  text-align: right;
 }
 
 
