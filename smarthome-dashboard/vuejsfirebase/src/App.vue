@@ -9,21 +9,25 @@
       </div>
       <section v-for="device in devices" :key="device['.key']" class="device-list">
           <h2>{{ device.name }}</h2>
+          <ul class="device-header">
+            <li>Setting Name</li>
+            <li>Status/Value</li>
+            <li>Actions</li>
+          </ul>
           <ul v-if="device.led_status" class="led-status">
             <li class="setting-name">LED Status</li>
             <li v-bind:class="device.led_status"></li>
             <li>
-              <button v-on:click="updateSetting(device)">Switch Off</button>
+              <button v-on:click="updateSetting(device, 'led_status', 'boolean', device.led_status)">Toggle</button>
             </li>
           </ul><!-- end led_status -->
           <ul v-if="device.interactive" class="interactive">
             <li class="setting-name">Interactivity</li>
             <li v-bind:class="device.interactive">
             <li>
-              <button v-on:click="updateSetting(device)">Switch Off</button>
+              <button v-on:click="updateSetting(device, 'interactive', 'boolean', device.interactive)">Toggle</button>
             </li>
           </ul>
-          
       </section>
       </ul>
     </div>
@@ -31,7 +35,6 @@
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld'
 import Firebase from 'firebase'
 
 let config = {
@@ -46,7 +49,7 @@ let config = {
 let app = Firebase.initializeApp(config);
 let db = app.database();
 
-let devicesRef = db.ref('devices')
+let devicesRef = db.ref('devices');
 
 export default {
   name: 'App',
@@ -56,17 +59,23 @@ export default {
     }
   },
   methods: {
-    updateSetting: function(device) {
+    updateSetting: function(device, setting_name, setting_type, setting_value) {
+      // Set Key
       const childKey = device['.key'];
 
-      if(device.led_status == "FALSE") {
-        let new_led_status = "TRUE";
-        devicesRef.child(childKey).child("led_status").set(new_led_status);
+      // If Setting is a Boolean we will perform a toggle
+      if(setting_type == "boolean") {
+        if(setting_value == "FALSE") {
+          devicesRef.child(childKey).child(setting_name).set("TRUE");
+        }
+        else if(setting_value == "TRUE") {
+          devicesRef.child(childKey).child(setting_name).set("FALSE");
+        }
       }
-      else if(device.led_status == "TRUE") {
-        let new_led_status = "FALSE";
-        devicesRef.child(childKey).child("led_status").set(new_led_status);
+      else {
+        console.log("Error in setting type");
       }
+
     },
   },
   firebase: {
@@ -94,7 +103,9 @@ h2 {
   text-align: left;
   border-bottom: 2px solid #000;
   padding-bottom: 5px;
-  margin-bottom: 15px;
+  margin-bottom: 0;
+  padding-left: 15px;
+  padding-right: 15px;
 }
 
 h2:first-letter {
@@ -107,7 +118,7 @@ h2:first-letter {
   list-style: none;
   padding: 0;
   margin: 0;
-  margin-bottom: 15px;
+  padding-bottom: 10px;
 }
 
 .device-list ul + ul {
@@ -127,14 +138,30 @@ h2:first-letter {
 .device-list ul {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
+  padding-left: 15px;
+  padding-right: 15px;
 }
 
 .device-list ul li {
-  text-align: left;
+    text-align: left;
+    display: inline-flex;
+    align-items: center;
 }
 
 .device-list ul li:last-of-type {
   text-align: right;
+  justify-content: flex-end;
+}
+
+html body .device-header {
+  text-align: center;
+  background-color: #ededed;
+  padding-top: 12px;
+  padding-bottom: 12px;
+}
+
+.device-header li {
+  font-weight: bold;
 }
 
 
