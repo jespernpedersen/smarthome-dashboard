@@ -32,8 +32,8 @@
           </ul>
           <!-- Template Distance Setting -->
           <ul v-if="device.distance" class="distance">
-            <li class="setting-name">Distance</li>
-            <li style="justify-content: center;">{{ device.distance }}</li>
+            <li class="setting-name">Amount of people</li>
+            <li style="justify-content: center;">{{ device.entryamount }}</li>
             <li></li>
           </ul>
       </section>
