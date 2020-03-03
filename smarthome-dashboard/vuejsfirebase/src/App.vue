@@ -11,22 +11,30 @@
           <h2>{{ device.name }}</h2>
           <ul class="device-header">
             <li>Setting Name</li>
-            <li>Status/Value</li>
+            <li style="justify-content: center;">Status/Value</li>
             <li>Actions</li>
           </ul>
+          <!-- Template LED_Status Setting -->
           <ul v-if="device.led_status" class="led-status">
             <li class="setting-name">LED Status</li>
             <li v-bind:class="device.led_status"></li>
             <li>
               <button v-on:click="updateSetting(device, 'led_status', 'boolean', device.led_status)">Toggle</button>
             </li>
-          </ul><!-- end led_status -->
+          </ul>
+          <!-- Template Interactive Setting -->
           <ul v-if="device.interactive" class="interactive">
             <li class="setting-name">Interactivity</li>
             <li v-bind:class="device.interactive">
             <li>
               <button v-on:click="updateSetting(device, 'interactive', 'boolean', device.interactive)">Toggle</button>
             </li>
+          </ul>
+          <!-- Template Distance Setting -->
+          <ul v-if="device.distance" class="distance">
+            <li class="setting-name">Distance</li>
+            <li style="justify-content: center;">{{ device.distance }}</li>
+            <li></li>
           </ul>
       </section>
       </ul>
@@ -94,6 +102,10 @@ export default {
   margin-top: 60px;
 }
 
+.panel-default {
+  padding-bottom: 60px;
+}
+
 th,
 tr td {
   text-align: center;
@@ -131,7 +143,7 @@ h2:first-letter {
 }
 
 .device-list {
-  padding: 0px 30px 60px 30px;
+  padding: 0px 30px 0px 30px;
   width: 100%;
 }
 
