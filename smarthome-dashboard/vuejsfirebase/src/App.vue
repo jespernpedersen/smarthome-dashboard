@@ -32,6 +32,12 @@
           </ul>
           <!-- Template Distance Setting -->
           <ul v-if="device.distance" class="distance">
+            <li class="setting-name">Distance</li>
+            <li style="justify-content: center;">{{ device.distance }}</li>
+            <li></li>
+          </ul>
+          <!-- Template Entry Amount Setting -->
+          <ul v-if="device.entryamount" class="entryamount">
             <li class="setting-name">Amount of people</li>
             <li style="justify-content: center;">{{ device.entryamount }}</li>
             <li></li>
@@ -101,6 +107,7 @@ export default {
   color: #2c3e50;
   margin-top: 60px;
 }
+
 
 .panel-default {
   padding-bottom: 60px;
